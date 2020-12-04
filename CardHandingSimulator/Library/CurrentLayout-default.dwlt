@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 881, y: 492}
   m_MaxSize: {x: 16006, y: 14042}
   vertical: 0
-  controlID: 102
+  controlID: 98
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -396,20 +396,20 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets
+    - Packages
   m_ViewMode: 1
   m_StartGridSize: 65
   m_LastFolders:
-  - Assets
+  - Packages
   m_LastFoldersGridSize: 65
-  m_LastProjectPath: D:\Unity\Project\CardHandingSimulator
+  m_LastProjectPath: "C:\\Users\\\uC2E0\uD615\uC885\\Documents\\GitHub\\CardHanding\\CardHandingSimulator"
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d6380000
-    m_LastClickedID: 14550
-    m_ExpandedIDs: 00000000d638000000ca9a3b
+    m_SelectedIDs: ffffff7f
+    m_LastClickedID: 2147483647
+    m_ExpandedIDs: 00000000d6380000583900005a390000f23a0000f43a000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -560,7 +560,7 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 8c360000
       m_LastClickedID: 0
       m_ExpandedIDs: 6afbffff
       m_RenameOverlay:

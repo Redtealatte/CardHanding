@@ -12,7 +12,6 @@ public class DropZone : MonoBehaviour, IDropHandler
         if (HandingManager.Instance.endDraw && d.mousePointFollow)
         {
             Card dropCard = eventData.pointerDrag.GetComponent<Card>();
-            Debug.Log("Drop Card order : " + dropCard.order);
             HandingManager.Instance.DropCard(0.5f, dropCard.order);
             d.isOnDropZone = true;
             HandingManager.Instance.SortAllCard();

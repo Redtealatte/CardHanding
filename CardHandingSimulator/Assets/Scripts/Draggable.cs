@@ -88,7 +88,6 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
             mouseOver = true;
             transform.SetAsLastSibling();
             ChangeTransform(ObjectControl.RotationAngle(gameObject, 0f), HandingManager.Instance.cardMaxSize + 0.5f, new Vector3(transform.localPosition.x, yPos2BeExtended, -1f));
-            print(card.transform.localPosition.y);
             HandingManager.Instance.ExpandGapSelectedCard(card.order);
         }
     }
@@ -100,8 +99,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         {
             transform.SetSiblingIndex(GetComponent<Card>().order);
             ChangeTransform(ObjectControl.RotationAngle(gameObject, card.angle), HandingManager.Instance.cardMaxSize, card.targetPos);
-            HandingManager.Instance.RollBackGapCards(card.order);
-                      
+            HandingManager.Instance.RollBackGapCards(card.order);                      
         }
         mouseOver = false;
     }

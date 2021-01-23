@@ -6,13 +6,12 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
     public CardInit init;
+    private Text _name;
+    private Text _description;
+    private Text _cost;
+    private Text _power;
 
-    Text _name;
-    Text _description;
-    Text _cost;
-    Text _power;
-
-    TrailRenderer trailObj;
+    private TrailRenderer trailObj;
 
     public float handCurveRate;
     public float moveCurveRate;

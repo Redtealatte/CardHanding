@@ -9,12 +9,6 @@ public class Pile : MonoBehaviour
 
     protected Text pileCount;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     /// <summary>
     /// cardInit의 데이터를 pile List에 추가하고, List 원소의 개수를 pileCount에 표시한다.
     /// </summary>

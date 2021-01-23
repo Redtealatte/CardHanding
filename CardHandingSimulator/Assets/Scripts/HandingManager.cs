@@ -327,7 +327,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //UI의 버튼 클릭 이벤트에 사용될, Re-draw 함수이다.
-    public void ReDrawBtnClickEvent()
+    public void ReDraw()
     {
         if (isDrawable)
         {

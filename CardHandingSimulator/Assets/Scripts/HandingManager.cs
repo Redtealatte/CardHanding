@@ -148,7 +148,7 @@ public class HandingManager : MonoBehaviour
         cardList[index].targetPos = Curve.BezierCurve(cardList[index].handCurveRate, handP0.localPosition, handP1.localPosition, handP2.localPosition, handP3.localPosition);
 
         StartCoroutine(ObjectControl.ChangeSizeC(0.3f, new Vector3(cardMaxSize, cardMaxSize, 0.0f), cardList[index].gameObject));
-        yield return StartCoroutine(ObjectControl.CurveMoveCardC(time, deck.transform.localPosition, drawP1.localPosition, drawP2.localPosition, cardList[index].targetPos, cardList[index].gameObject));
+        yield return StartCoroutine(ObjectControl.CurveMoveObjC(time, deck.transform.localPosition, drawP1.localPosition, drawP2.localPosition, cardList[index].targetPos, cardList[index].gameObject));
 
         StartCoroutine(cardList[index].SetActiveOfTrailC(0.3f, false));
 
@@ -175,7 +175,7 @@ public class HandingManager : MonoBehaviour
         Vector3 start = cardList[index].transform.localPosition;
         cardList[index].targetPos = Curve.BezierCurve(cardList[index].handCurveRate, handP0.localPosition, handP1.localPosition, handP2.localPosition, handP3.localPosition);
         Vector3 speed = new Vector3((cardList[index].targetPos.x - start.x) / time, (cardList[index].targetPos.y - start.y) / time, (cardList[index].targetPos.z - start.z) / time);
-        StartCoroutine(ObjectControl.MoveCardC(time, start, cardList[index].targetPos, cardList[index].gameObject));
+        StartCoroutine(ObjectControl.MoveObjC(time, start, cardList[index].targetPos, cardList[index].gameObject));
     }
 
     //카드의 rate(베지어 곡선상의 위치)를 정해준다.
@@ -243,7 +243,7 @@ public class HandingManager : MonoBehaviour
     {
         card.isDraggable = false;
         StartCoroutine(card.SetActiveOfTrailC(0f, true));
-        yield return StartCoroutine(ObjectControl.CurveMoveCardC(time, start, p1, p2, end, card.gameObject));
+        yield return StartCoroutine(ObjectControl.CurveMoveObjC(time, start, p1, p2, end, card.gameObject));
         discardPile.AddToPile(card.init);
         Destroy(card.gameObject, 0.5f);
     }
@@ -295,7 +295,7 @@ public class HandingManager : MonoBehaviour
         Vector3 r2 = new Vector3(x, discardPile.transform.localPosition.y + addH, 0f);
 
         StartCoroutine(ObjectControl.RotationToC(time, new Vector3(0f, 0f, ObjectControl.RotationAngle(card.gameObject, 120f)), card.gameObject));
-        yield return StartCoroutine(ObjectControl.CurveMoveCardC(time, discardPile.transform.localPosition, r1, r2, deck.transform.localPosition, card.gameObject));
+        yield return StartCoroutine(ObjectControl.CurveMoveObjC(time, discardPile.transform.localPosition, r1, r2, deck.transform.localPosition, card.gameObject));
 
         deck.AddToPile(card.init);
         Destroy(card.gameObject, 0.5f);

@@ -58,7 +58,7 @@ public class ObjectControl
     /// <summary>
     /// time 시간동안 obj의 위치를 start에서 end로 이동시킨다.
     /// </summary>
-    public static IEnumerator MoveCardC(float time, Vector3 start, Vector3 end, GameObject obj)
+    public static IEnumerator MoveObjC(float time, Vector3 start, Vector3 end, GameObject obj)
     {
         Vector3 speed = new Vector3(end.x - start.x, end.y - start.y, end.z - start.z) / time;
 
@@ -80,7 +80,7 @@ public class ObjectControl
     /// <param name="p2">경유점 2</param>
     /// <param name="end">종점</param>
     /// <returns></returns>
-    public static IEnumerator CurveMoveCardC(float time, Vector3 start, Vector3 p1, Vector3 p2, Vector3 end, GameObject obj)
+    public static IEnumerator CurveMoveObjC(float time, Vector3 start, Vector3 p1, Vector3 p2, Vector3 end, GameObject obj)
     {
         float speed = 1f / time;
         float curTime = 0f;

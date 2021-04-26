@@ -90,7 +90,7 @@ public class HandingManager : MonoBehaviour
     //드로우하는 과정. 
     //뽑을 카드 더미에 카드가 존재하면, 프리팹을 생성 -> cardList에 추가 -> 손패로 이동 -> 손패 정렬.
     //뽑을 카드 더미에 카드가 없다면, 버린 카드 더미에서 카드를 가져와 뽑을 카드 더미에 넣고, 뽑을 카드 더미를 섞는다.
-    IEnumerator DrawRoutine()
+    private IEnumerator DrawRoutine()
     {
         endDrawCount = 0;
         endDraw = false;
@@ -119,7 +119,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //모든 드로우가 종료됬는지 확인한다.
-    IEnumerator CheckEndDraw()
+    private IEnumerator CheckEndDraw()
     {
         while (endDrawCount < drawableCount)
             yield return null;
@@ -128,7 +128,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //다른 오브젝트의 자식으로 카드를 생성해서 초기정보 부여.
-    Card GeneratedCard(Vector3 pos, Vector3 scale, Vector3 rot, Transform parent)
+    private Card GeneratedCard(Vector3 pos, Vector3 scale, Vector3 rot, Transform parent)
     {
         GameObject obj = Instantiate(cardPrefab);
         Card temp = obj.GetComponent<Card>();
@@ -140,7 +140,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //생성된 카드를 베지어 곡선에 따라 이동시킨다.
-    IEnumerator DrawCardC(float time, int index)
+    private IEnumerator DrawCardC(float time, int index)
     {
         float speed = 1.0f / time;
         StartCoroutine(ObjectControl.RotationToC(0.3f, new Vector3(0f, 0f, -180f), cardList[index].gameObject));
@@ -170,7 +170,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //time 시간동안 손패 내의 카드를 일정한 속도로 targetPos까지 이동시킨다.
-    void SortCard(float time, int index)
+    private void SortCard(float time, int index)
     {
         Vector3 start = cardList[index].transform.localPosition;
         cardList[index].targetPos = Curve.BezierCurve(cardList[index].handCurveRate, handP0.localPosition, handP1.localPosition, handP2.localPosition, handP3.localPosition);
@@ -180,7 +180,7 @@ public class HandingManager : MonoBehaviour
 
     //카드의 rate(베지어 곡선상의 위치)를 정해준다.
     //cardList의 크기가 6미만이면 0.13f, 6이상이면 0.1f만큼 베지어곡선의 카드 사이 간격 비율을 정한다. 
-    void SetCurveRate(int index)
+    private void SetCurveRate(int index)
     {        
         float interval = (cardList.Count < 6) ? 0.13f : 0.1f;
         
@@ -198,7 +198,7 @@ public class HandingManager : MonoBehaviour
 
     //손패의 카드들이 얼마나 기울어 질것인가를 계산한다.
     //카드마다 Be2CardAngle만큼 회전하도록 card의 angle을 정한다.
-    void SetAngleToCard(int index)
+    private void SetAngleToCard(int index)
     {
         int center = cardList.Count / 2;
 
@@ -239,7 +239,7 @@ public class HandingManager : MonoBehaviour
 
     //time 시간동안 card를 베지어 곡선을 따라 1초에 speed만큼의 속도로 이동시킨다.
     //카드의 trail효과를 활성화시키고, 이동이 종료되면 card.init을 discardPile에 추가하며 객체를 Destroy한다.
-    IEnumerator DropCardC(float time, float speed, Card card, Vector3 start, Vector3 p1, Vector3 p2, Vector3 end)
+    private IEnumerator DropCardC(float time, float speed, Card card, Vector3 start, Vector3 p1, Vector3 p2, Vector3 end)
     {
         card.isDraggable = false;
         StartCoroutine(card.SetActiveOfTrailC(0f, true));
@@ -249,7 +249,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //손패의 모든 카드를 버리고 리스트를 비운 다음 드로우 루틴을 실행.
-    IEnumerator DropAllCard()
+    private IEnumerator DropAllCard()
     {
         float time = 0.7f;
         float speed = 1f / time;
@@ -267,7 +267,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //discardPile의 모든 카드를 가져와 뽑을 카드 더미에 넣고 섞는다.
-    IEnumerator ReloadAllCard()
+    private IEnumerator ReloadAllCard()
     {
         float time = 0.5f;
         float count = 0f;
@@ -284,7 +284,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //time 시간동안 Card를 베지어 곡선에 따라 이동하여, 뽑을 카드 더미에 card.init 데이터를 전달한 후, card.GameObject를 Destroy한다.
-    IEnumerator ReloadCardC(float time, Card card)
+    private IEnumerator ReloadCardC(float time, Card card)
     {
         //localPosition 으로 변경시 이부분 수정 h와 addH를 더 크게 수정해야한다 ex) addH 150쯤.
         float speed = 1f / time;

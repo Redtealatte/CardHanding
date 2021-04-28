@@ -29,7 +29,7 @@ public class HandingManager : MonoBehaviour
     private Transform hand;
 
     public float Be2CardAngle;//손패에 있는 카드들의 사이각.
-    private int maxCardCount = 10;
+    public int maxCardCount = 10;
     public int drawableCount;//드로우할 카드의 수.
 
     /// <summary>
@@ -94,8 +94,7 @@ public class HandingManager : MonoBehaviour
     {
         endDrawCount = 0;
         endDraw = false;
-        if (drawableCount > maxCardCount)
-            drawableCount = maxCardCount;
+
         for (int i = 0; i < drawableCount; i++)
         {
             if (deck.pile.Count == 0)
@@ -216,7 +215,6 @@ public class HandingManager : MonoBehaviour
     public void DropCard(float time, int index)
     {
         Card card = cardList[index];
-        card.moveCurveRate = 0f;
         cardList.RemoveAt(index);
 
         for (int i = card.order; i < cardList.Count; i++)
@@ -250,7 +248,6 @@ public class HandingManager : MonoBehaviour
         float time = 0.7f;
         foreach(Card card in cardList)
         {
-            card.moveCurveRate = 0.0f;
             StartCoroutine(ObjectControl.ChangeSizeC(time, new Vector3(cardMinSize, cardMinSize, 0f), card.gameObject));
             StartCoroutine(ObjectControl.RotationToC(time, new Vector3(0f, 0f, ObjectControl.RotationAngle(card.gameObject, -180f)), card.gameObject));
             StartCoroutine(DropCardC(time, card, card.transform.localPosition, dropP1.localPosition, dropP2.localPosition, discardPile.transform.localPosition));

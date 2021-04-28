@@ -14,7 +14,6 @@ public class Card : MonoBehaviour
     private TrailRenderer trailObj;
 
     public float handCurveRate;
-    public float moveCurveRate;
     public float angle;
     public int order;
 
@@ -27,7 +26,6 @@ public class Card : MonoBehaviour
     
     void Awake()
     {  
-        moveCurveRate = 0.0f;
         angle = 0.0f;
         trailObj = GetComponent<TrailRenderer>();
     }

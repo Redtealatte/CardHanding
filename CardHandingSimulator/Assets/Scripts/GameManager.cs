@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     public void BtnClickEvent()
     {
-        if (countInputField.text != string.Empty && int.Parse(countInputField.text) > 0 && int.Parse(countInputField.text) <= 10)
+        if (countInputField.text != string.Empty && int.Parse(countInputField.text) > 0 && int.Parse(countInputField.text) <= HandingManager.Instance.maxCardCount)
         {
             HandingManager.Instance.drawableCount = int.Parse(countInputField.text);
             HandingManager.Instance.ReDraw();

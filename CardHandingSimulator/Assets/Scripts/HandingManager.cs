@@ -90,7 +90,7 @@ public class HandingManager : MonoBehaviour
     //드로우하는 과정. 
     //뽑을 카드 더미에 카드가 존재하면, 프리팹을 생성 -> cardList에 추가 -> 손패로 이동 -> 손패 정렬.
     //뽑을 카드 더미에 카드가 없다면, 버린 카드 더미에서 카드를 가져와 뽑을 카드 더미에 넣고, 뽑을 카드 더미를 섞는다.
-    private IEnumerator DrawRoutine()
+    private IEnumerator DrawRoutineC()
     {
         endDrawCount = 0;
         endDraw = false;
@@ -100,18 +100,17 @@ public class HandingManager : MonoBehaviour
         {
             if (deck.pile.Count == 0)
             {
-                yield return StartCoroutine(ReloadAllCard());
+                yield return StartCoroutine(ReloadAllCardC());
             }
             Card card = GeneratedCard(deck.transform.localPosition, Vector3.zero, new Vector3(0f, 0f, 180f), hand);
             card.SetInitializeData(deck.TakeOutOfPile(deck.pile.Count - 1));
-
             cardList.Add(card);
             cardList[i].order = i;
             StartCoroutine(DrawCardC(0.6f, cardList[i].order));
 
             yield return new WaitForSeconds(0.5f);
         }
-        yield return StartCoroutine(CheckEndDraw());
+        yield return StartCoroutine(CheckEndDrawC());
         isDrawable = true;
         //각 카드들의 드래그 허용.
         for (int i = 0; i < drawableCount; i++)
@@ -119,7 +118,7 @@ public class HandingManager : MonoBehaviour
     }
 
     //모든 드로우가 종료됬는지 확인한다.
-    private IEnumerator CheckEndDraw()
+    private IEnumerator CheckEndDrawC()
     {
         while (endDrawCount < drawableCount)
             yield return null;
@@ -142,7 +141,6 @@ public class HandingManager : MonoBehaviour
     //생성된 카드를 베지어 곡선에 따라 이동시킨다.
     private IEnumerator DrawCardC(float time, int index)
     {
-        float speed = 1.0f / time;
         StartCoroutine(ObjectControl.RotationToC(0.3f, new Vector3(0f, 0f, -180f), cardList[index].gameObject));
         SetCurveRate(index);
         cardList[index].targetPos = Curve.BezierCurve(cardList[index].handCurveRate, handP0.localPosition, handP1.localPosition, handP2.localPosition, handP3.localPosition);
@@ -174,7 +172,6 @@ public class HandingManager : MonoBehaviour
     {
         Vector3 start = cardList[index].transform.localPosition;
         cardList[index].targetPos = Curve.BezierCurve(cardList[index].handCurveRate, handP0.localPosition, handP1.localPosition, handP2.localPosition, handP3.localPosition);
-        Vector3 speed = new Vector3((cardList[index].targetPos.x - start.x) / time, (cardList[index].targetPos.y - start.y) / time, (cardList[index].targetPos.z - start.z) / time);
         StartCoroutine(ObjectControl.MoveObjC(time, start, cardList[index].targetPos, cardList[index].gameObject));
     }
 
@@ -225,7 +222,6 @@ public class HandingManager : MonoBehaviour
         for (int i = card.order; i < cardList.Count; i++)
             cardList[i].order--;
 
-        float speed = 1f / time;
         float y = 100f;
         float x = (discardPile.transform.localPosition.x - card.transform.localPosition.x) / 3;
 
@@ -234,12 +230,12 @@ public class HandingManager : MonoBehaviour
 
         StartCoroutine(ObjectControl.ChangeSizeC(time, new Vector3(cardMinSize, cardMinSize, 0f), card.gameObject));
         StartCoroutine(ObjectControl.RotationToC(time, new Vector3(0f, 0f, ObjectControl.RotationAngle(card.gameObject, -180f)), card.gameObject));
-        StartCoroutine(DropCardC(time, speed, card, card.transform.localPosition, p1, p2, discardPile.transform.localPosition));
+        StartCoroutine(DropCardC(time, card, card.transform.localPosition, p1, p2, discardPile.transform.localPosition));
     }
 
-    //time 시간동안 card를 베지어 곡선을 따라 1초에 speed만큼의 속도로 이동시킨다.
+    //time 시간동안 card를 베지어 곡선을 따라 이동시킨다.
     //카드의 trail효과를 활성화시키고, 이동이 종료되면 card.init을 discardPile에 추가하며 객체를 Destroy한다.
-    private IEnumerator DropCardC(float time, float speed, Card card, Vector3 start, Vector3 p1, Vector3 p2, Vector3 end)
+    private IEnumerator DropCardC(float time, Card card, Vector3 start, Vector3 p1, Vector3 p2, Vector3 end)
     {
         card.isDraggable = false;
         StartCoroutine(card.SetActiveOfTrailC(0f, true));
@@ -249,25 +245,24 @@ public class HandingManager : MonoBehaviour
     }
 
     //손패의 모든 카드를 버리고 리스트를 비운 다음 드로우 루틴을 실행.
-    private IEnumerator DropAllCard()
+    private IEnumerator DropAllCardC()
     {
         float time = 0.7f;
-        float speed = 1f / time;
         foreach(Card card in cardList)
         {
             card.moveCurveRate = 0.0f;
             StartCoroutine(ObjectControl.ChangeSizeC(time, new Vector3(cardMinSize, cardMinSize, 0f), card.gameObject));
             StartCoroutine(ObjectControl.RotationToC(time, new Vector3(0f, 0f, ObjectControl.RotationAngle(card.gameObject, -180f)), card.gameObject));
-            StartCoroutine(DropCardC(time, speed, card, card.transform.localPosition, dropP1.localPosition, dropP2.localPosition, discardPile.transform.localPosition));
+            StartCoroutine(DropCardC(time, card, card.transform.localPosition, dropP1.localPosition, dropP2.localPosition, discardPile.transform.localPosition));
         }
         if (cardList.Count > 0)
             yield return new WaitForSeconds(time + 0.5f);
         cardList.Clear();
-        StartCoroutine(DrawRoutine());
+        StartCoroutine(DrawRoutineC());
     }
 
     //discardPile의 모든 카드를 가져와 뽑을 카드 더미에 넣고 섞는다.
-    private IEnumerator ReloadAllCard()
+    private IEnumerator ReloadAllCardC()
     {
         float time = 0.5f;
         float count = 0f;
@@ -286,10 +281,8 @@ public class HandingManager : MonoBehaviour
     //time 시간동안 Card를 베지어 곡선에 따라 이동하여, 뽑을 카드 더미에 card.init 데이터를 전달한 후, card.GameObject를 Destroy한다.
     private IEnumerator ReloadCardC(float time, Card card)
     {
-        //localPosition 으로 변경시 이부분 수정 h와 addH를 더 크게 수정해야한다 ex) addH 150쯤.
-        float speed = 1f / time;
-        float h = Random.Range(-2f, 2f) * 80;
-        float addH = 3f * 80f;
+        float h = Random.Range(-2, 3) * 80;
+        float addH = 3 * 80;
         float x = discardPile.transform.localPosition.x + (deck.transform.localPosition.x - discardPile.transform.localPosition.x) / 5;
         Vector3 r1 = new Vector3(x, discardPile.transform.localPosition.y + addH + h, 0f);
         Vector3 r2 = new Vector3(x, discardPile.transform.localPosition.y + addH, 0f);
@@ -332,7 +325,7 @@ public class HandingManager : MonoBehaviour
         if (isDrawable)
         {
             isDrawable = false;
-            StartCoroutine(DropAllCard());
+            StartCoroutine(DropAllCardC());
         }
     }
 }
